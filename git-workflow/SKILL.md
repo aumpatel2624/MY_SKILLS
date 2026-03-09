@@ -1,11 +1,11 @@
 ---
 name: git-workflow
-description: "Use this skill whenever the user wants help with git: committing changes, naming branches, writing commit messages, pushing code, staging files, or preparing a PR. Trigger on phrases like: commit my changes, create a branch, what should I name this branch, help me with git, write a commit message, push my code, review my diff, stage my changes, prepare a pull request, or what branch should I use. This skill runs the complete workflow: inspect the diff, pick the right branch name and target, write a conventional commit message, and output copy-paste-ready commands. Built for a 3-branch repo: development, staging, and production."
+description: "Use this skill whenever the user wants help with git: committing changes, naming branches, writing commit messages, updating the changelog, pushing code, staging files, or preparing a PR. Trigger on phrases like: commit my changes, create a branch, what should I name this branch, help me with git, write a commit message, push my code, review my diff, stage my changes, prepare a pull request, update the changelog, or what branch should I use. This skill runs the complete workflow: inspect the diff, pick the right branch name and target, write a conventional commit message, update CHANGELOG.md, and output copy-paste-ready commands. Built for a 3-branch repo: development, staging, and production."
 ---
 
 # Git Workflow Skill
 
-End-to-end git assistant: **diff analysis → branch naming → commit message → ready commands**.
+End-to-end git assistant: **diff analysis → branch naming → commit message → changelog update → ready commands**.
 
 Branch hierarchy: `feature branches` → `development` → `staging` → `production`
 
@@ -13,7 +13,7 @@ Branch hierarchy: `feature branches` → `development` → `staging` → `produc
 
 ## How to Use This Skill
 
-Work through these five steps in order. Each step tells you when to open a reference file for full detail.
+Work through these six steps in order. Each step tells you when to open a reference file for full detail.
 
 ---
 
@@ -99,23 +99,57 @@ Core rules:
 
 ---
 
-## Step 4 — Output the Commands
+## Step 4 — Update the CHANGELOG
 
-Give the user a complete, copy-paste-ready block. Fill in the actual branch name and commit message.
+> Full format rules, section ordering, and examples: **`references/changelog-format.md`**
+
+Locate the project's `CHANGELOG.md`. Search from the repository root. If no `CHANGELOG.md` exists, create one at the repo root following the [Keep a Changelog](https://keepachangelog.com/) format.
+
+Add an entry under the `## [Unreleased]` section. If there is no `[Unreleased]` section, add one at the top of the changelog (below the title and preamble).
+
+Pick the correct subsection based on the change type:
+
+| Commit type                    | Changelog section |
+|--------------------------------|-------------------|
+| `feat`                         | `### Added`       |
+| `fix`, `hotfix`                | `### Fixed`       |
+| `refactor`, `perf`             | `### Changed`     |
+| `chore` (dep removal), `revert`| `### Removed`     |
+| `chore` (dep upgrade/config)   | `### Changed`     |
+| `docs`                         | `### Changed`     |
+| `style`, `test`, `ci`          | Skip — no user-facing impact |
+
+Entry rules:
+- Write from the **user's perspective** — describe the effect, not the code
+- Start with a verb in past tense: "Added", "Fixed", "Removed", "Updated"
+- One bullet per logical change
+- Reference issue/PR numbers where applicable: `(#42)`
+- Keep entries concise — one or two sentences max
+
+If the change has no user-facing impact (e.g., `style`, `test`, `ci`), **skip the changelog update** and note this to the user.
+
+---
+
+## Step 5 — Output the Commands
+
+Give the user a complete, copy-paste-ready block. Fill in the actual branch name, commit message, and changelog entry.
 
 ```bash
 # 1. Create and switch to branch (skip if already on a feature branch)
 git checkout -b feat/your-branch-name
 
-# 2. Stage changes
+# 2. Update CHANGELOG.md (add entry under [Unreleased])
+# Edit CHANGELOG.md — add your entry under the correct subsection
+
+# 3. Stage changes (including CHANGELOG.md)
 git add .                          # everything
-git add path/to/specific/file.js   # selective
+git add path/to/specific/file.js CHANGELOG.md  # selective
 git add -p                         # interactive (for mixed changes)
 
-# 3. Commit (single-line)
+# 4. Commit (single-line)
 git commit -m "feat(scope): short summary here"
 
-# 3. Commit (multi-line, when body is needed)
+# 4. Commit (multi-line, when body is needed)
 git commit -m "feat(scope): short summary here
 
 Body paragraph explaining what changed and why.
@@ -123,7 +157,7 @@ Keep lines under 72 chars.
 
 Closes #42"
 
-# 4. Push and set upstream
+# 5. Push and set upstream
 git push -u origin feat/your-branch-name
 ```
 
@@ -131,14 +165,15 @@ git push -u origin feat/your-branch-name
 
 ---
 
-## Step 5 — Present a Clear Summary
+## Step 6 — Present a Clear Summary
 
 Always close your response with:
 
 1. **Branch name** — state it clearly, with a one-sentence reason for the choice
 2. **Full commit message** — verbatim, formatted, ready to copy
-3. **Commands block** — the complete sequence filled in with real values
-4. **Next step** — e.g. "Open a PR: `feat/login` → `development`"
+3. **CHANGELOG entry** — the exact line(s) to add, and under which section
+4. **Commands block** — the complete sequence filled in with real values
+5. **Next step** — e.g. "Open a PR: `feat/login` → `development`"
 
 ---
 
@@ -148,6 +183,7 @@ Always close your response with:
 |------|-----------|
 | `references/branch-naming.md` | Need full naming rules, edge cases, or real examples |
 | `references/commit-messages.md` | Need full commit spec, scope guidance, or examples |
+| `references/changelog-format.md` | Need full changelog format rules, section guidance, or examples |
 | `references/hotfix-flow.md` | Dealing with a critical production fix |
 | `references/edge-cases.md` | Mixed changes, already on wrong branch, empty diff, first commit |
 | `scripts/analyze-diff.sh` | macOS / Linux / Git Bash / WSL |
