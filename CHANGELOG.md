@@ -6,6 +6,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/), and this
 
 ## [Unreleased]
 
+### Added
+
+- **git-workflow** skill: added CHANGELOG.md update step to the workflow (Step 4) with commit-type-to-section mapping and skip logic for non-user-facing changes
+- **git-workflow** skill: added `references/changelog-format.md` reference doc with full Keep a Changelog spec, examples, and checklist
+
 ## [1.0.0] - 2026-03-05
 
 ### Added

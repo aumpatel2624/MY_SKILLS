@@ -7,7 +7,7 @@ A collection of reusable skills for [Claude Code](https://docs.anthropic.com/en/
 | Skill | Description | Trigger phrases |
 |-------|-------------|-----------------|
 | **doctidy** | Scans your codebase and reorganizes your markdown docs into a clean, logical, non-redundant structure. | `run doctidy`, `tidy my docs`, `organize my docs` |
-| **git-workflow** | End-to-end git assistant: diff analysis, branch naming, commit messages, and copy-paste-ready commands. Built for a 3-branch repo (development/staging/production). | `commit my changes`, `create a branch`, `write a commit message`, `help me with git` |
+| **git-workflow** | End-to-end git assistant: diff analysis, branch naming, commit messages, changelog updates, and copy-paste-ready commands. Built for a 3-branch repo (development/staging/production). | `commit my changes`, `create a branch`, `write a commit message`, `help me with git`, `update the changelog` |
 
 ## Installation
 
