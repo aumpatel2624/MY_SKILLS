@@ -1,0 +1,16 @@
+name: naming-convention
+description: Skill enforces lowercase-hyphenated naming for docs
+type: encoded_preference
+
+prompt: "tidy my docs — I have files named SETUP_GUIDE.md, GettingStarted.md, and API Reference.md"
+
+expected:
+  must_match:
+    - "lowercase"
+    - "(hyphen|kebab)"
+    - "(setup-guide|getting-started|api-reference)"
+  must_not_contain:
+    - "SETUP_GUIDE"
+    - "GettingStarted"
+
+tags: [naming, quality]

@@ -20,21 +20,39 @@ Thanks for your interest in contributing to this skills collection! This guide c
    ```
 
 2. Add a `SKILL.md` at the root of your skill folder. This is the entry point that the AI reads at trigger time. It should include:
+   - **YAML frontmatter** -- `name` and `description` with trigger phrases for reliable activation.
    - **Trigger phrases** -- when should this skill activate?
    - **Step-by-step execution instructions** -- what should the AI do?
    - **Quality/safety rules** -- any guardrails or constraints.
 
-3. Optionally add supporting directories:
+3. Add evals in `my-skill/evals/` (required for all new skills):
+   ```yaml
+   name: basic-trigger
+   description: Skill activates on trigger phrase
+   type: capability  # or encoded_preference
+   prompt: "your trigger phrase here"
+   expected:
+     must_contain:
+       - "expected string"
+   tags: [trigger, basic]
+   ```
+
+4. Optionally add supporting directories:
    ```
    my-skill/
    ├── SKILL.md              # Required: main instructions
+   ├── evals/                # Required: eval test cases
+   │   ├── 01-basic.yaml
+   │   └── 02-edge-case.yaml
    ├── scripts/              # Optional: helper scripts
    └── references/           # Optional: detailed reference docs
    ```
 
-4. Update `README.md` to add your skill to the "Available Skills" table.
+5. Run evals to verify: `bash evals/run-evals.sh my-skill`
 
-5. Update `CHANGELOG.md` with your addition under the `[Unreleased]` section.
+6. Update `README.md` to add your skill to the "Available Skills" table.
+
+7. Update `CHANGELOG.md` with your addition under the `[Unreleased]` section.
 
 ## Improving an Existing Skill
 
@@ -45,10 +63,13 @@ Thanks for your interest in contributing to this skills collection! This guide c
 ## Skill Guidelines
 
 - **Keep `SKILL.md` self-contained.** The AI reads it at trigger time with no prior context.
+- **Include YAML frontmatter.** Every `SKILL.md` needs a `name` and `description` field with trigger phrases.
+- **Write evals for every skill.** Evals catch regressions and prove the skill adds value beyond the base model.
 - **Use `references/` for detail.** Long specs, examples, and edge cases belong in reference files that get loaded on demand.
 - **Filenames:** Use `lowercase-hyphenated.md` for all markdown files.
 - **Max depth:** Skills should be at most 2 levels deep (`skill/references/file.md`).
 - **Scripts:** Include cross-platform variants (`.sh`, `.bat`, `.ps1`) when possible, as demonstrated in `git-workflow/scripts/`.
+- **Run benchmarks after changes.** Use `bash evals/benchmark.sh <skill>` to track the impact of your edits.
 
 ## Commit Messages
 

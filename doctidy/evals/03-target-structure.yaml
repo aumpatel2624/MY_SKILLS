@@ -1,0 +1,17 @@
+name: target-structure
+description: Skill proposes the correct target docs/ hierarchy
+type: encoded_preference
+
+prompt: "organize my docs into a clean structure"
+
+expected:
+  must_contain:
+    - "docs/"
+    - "README.md"
+  must_match:
+    - "(getting-started|architecture|guides|reference)"
+    - "(installation|quickstart|overview)"
+  must_not_contain:
+    - "ALL_CAPS"
+
+tags: [structure, core]

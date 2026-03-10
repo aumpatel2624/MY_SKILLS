@@ -1,0 +1,15 @@
+name: hotfix-detection
+description: Skill uses hotfix/ prefix and targets production for critical fixes
+type: encoded_preference
+
+prompt: "there's a critical bug in production — users can't log in. Help me commit a fix."
+
+expected:
+  must_match:
+    - "hotfix/"
+    - "(production|prod|main)"
+  must_not_contain:
+    - "feat/"
+    - "development"
+
+tags: [hotfix, branch, core]

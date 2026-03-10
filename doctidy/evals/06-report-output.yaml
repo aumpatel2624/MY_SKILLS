@@ -1,0 +1,13 @@
+name: report-output
+description: Skill produces a structured completion report
+type: encoded_preference
+
+prompt: "restructure my documentation and show me what changed"
+
+expected:
+  must_match:
+    - "(doctidy complete|complete|summary|report)"
+    - "(merged|archived|renamed|moved|created)"
+    - "(new structure|tree|structure)"
+
+tags: [report, output, core]

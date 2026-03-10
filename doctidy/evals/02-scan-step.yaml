@@ -1,0 +1,15 @@
+name: scan-step
+description: Skill starts by scanning the codebase structure
+type: encoded_preference
+
+prompt: "run doctidy on this project"
+
+expected:
+  must_match:
+    - "(find|ls|tree|structure|scan)"
+    - "(package\\.json|pyproject|build\\.gradle|pom\\.xml|tech stack)"
+  must_not_contain:
+    - "rm -rf"
+    - "git rm"
+
+tags: [step, scan, basic]

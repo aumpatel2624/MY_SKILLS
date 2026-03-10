@@ -1,0 +1,17 @@
+name: branch-naming
+description: Skill suggests correct branch names following prefix conventions
+type: encoded_preference
+
+prompt: "I just built a new login page. What should I name my branch?"
+
+expected:
+  must_match:
+    - "feat/"
+    - "(login|auth)"
+    - "(lowercase|hyphen)"
+  must_not_contain:
+    - "FEAT/"
+    - "feature/"
+    - "camelCase"
+
+tags: [branch, naming, core]

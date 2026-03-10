@@ -1,0 +1,16 @@
+name: changelog-update
+description: Skill includes CHANGELOG.md update in the workflow
+type: encoded_preference
+
+prompt: "commit my changes — I added a new search API endpoint"
+
+expected:
+  must_match:
+    - "CHANGELOG"
+    - "(\\[Unreleased\\]|Unreleased)"
+    - "### Added"
+  must_not_contain:
+    - "### Fixed"
+    - "### Removed"
+
+tags: [changelog, core]

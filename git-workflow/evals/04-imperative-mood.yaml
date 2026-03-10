@@ -1,0 +1,16 @@
+name: imperative-mood
+description: Commit subject uses imperative mood (add not added, fix not fixed)
+type: encoded_preference
+
+prompt: "write a commit message — I fixed a null pointer crash in the payment handler"
+
+expected:
+  must_match:
+    - "fix\\("
+    - "(fix|resolve|handle|prevent)"
+  must_not_contain:
+    - "fixed"
+    - "Fixed"
+    - "fixing"
+
+tags: [commit, mood, core]
