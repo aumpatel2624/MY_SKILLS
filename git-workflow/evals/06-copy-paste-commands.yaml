@@ -1,0 +1,17 @@
+name: copy-paste-commands
+description: Skill outputs a complete copy-paste-ready command block
+type: encoded_preference
+
+prompt: "help me commit and push a bug fix for the broken email validator"
+
+expected:
+  must_match:
+    - "git checkout -b|git switch -c|already on"
+    - "git add"
+    - "git commit -m"
+    - "git push"
+  must_not_contain:
+    - "you should run"
+    - "try running"
+
+tags: [commands, output, core]

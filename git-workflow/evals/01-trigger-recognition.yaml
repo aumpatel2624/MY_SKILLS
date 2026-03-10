@@ -1,0 +1,16 @@
+name: trigger-recognition
+description: Skill activates on common git-related trigger phrases
+type: encoded_preference
+
+prompt: "commit my changes"
+
+expected:
+  must_match:
+    - "(git diff|git status|diff|status)"
+    - "(commit message|commit -m)"
+    - "(feat|fix|chore|refactor|docs)\\("
+  must_not_contain:
+    - "I don't understand"
+    - "I can't help"
+
+tags: [trigger, basic]

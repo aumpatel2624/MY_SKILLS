@@ -1,0 +1,15 @@
+name: skip-changelog-for-ci
+description: Skill skips changelog for non-user-facing changes (CI, tests, style)
+type: encoded_preference
+
+prompt: "commit my changes — I updated the CI pipeline to add a linting step"
+
+expected:
+  must_match:
+    - "ci\\("
+    - "(skip|no.*(changelog|user-facing)|not.*user-facing)"
+  must_not_contain:
+    - "### Added"
+    - "### Fixed"
+
+tags: [changelog, skip, edge-case]

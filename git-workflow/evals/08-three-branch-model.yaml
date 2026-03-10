@@ -1,0 +1,15 @@
+name: three-branch-model
+description: Skill follows development/staging/production branch hierarchy
+type: encoded_preference
+
+prompt: "create a branch for a new feature and tell me where it should merge"
+
+expected:
+  must_match:
+    - "feat/"
+    - "development"
+  must_not_contain:
+    - "merge into main"
+    - "merge to master"
+
+tags: [branch, hierarchy, core]

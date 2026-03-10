@@ -1,0 +1,16 @@
+name: conventional-commit
+description: Skill produces Conventional Commits format messages
+type: encoded_preference
+
+prompt: "write a commit message for adding a dark mode toggle to the settings page"
+
+expected:
+  must_match:
+    - "^feat\\("
+    - "(dark mode|dark-mode|toggle)"
+  must_not_contain:
+    - "Added"
+    - "added dark"
+    - "feat:"
+
+tags: [commit, format, core]

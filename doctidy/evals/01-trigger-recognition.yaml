@@ -1,0 +1,16 @@
+name: trigger-recognition
+description: Skill activates on common trigger phrases
+type: encoded_preference
+
+prompt: "tidy my docs"
+
+expected:
+  must_contain:
+    - "docs/"
+  must_match:
+    - "(scan|analyz|inspect|read|structure)"
+  must_not_contain:
+    - "I don't understand"
+    - "I can't help"
+
+tags: [trigger, basic]

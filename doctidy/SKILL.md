@@ -1,6 +1,11 @@
+---
+name: doctidy
+description: "Use this skill whenever the user wants to clean up, reorganize, or restructure their markdown documentation. Trigger on phrases like: run doctidy, tidy my docs, organize my docs, clean up the docs folder, restructure my documentation, fix my docs structure, reorganize documentation. This skill scans the codebase, understands its structure, and reorganizes markdown files into a clean, logical, non-redundant docs/ hierarchy with a generated README, merged duplicates, and archived dead files."
+---
+
 # doctidy
 
-> Like `tidy` for HTML — but for your entire docs folder.  
+> Like `tidy` for HTML — but for your entire docs folder.
 > Scans your codebase, understands it, and reorganizes your markdown into a clean, logical, non-redundant structure.
 
 ---

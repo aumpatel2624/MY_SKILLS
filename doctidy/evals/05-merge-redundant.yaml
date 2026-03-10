@@ -1,0 +1,16 @@
+name: merge-redundant
+description: Skill merges redundant docs rather than concatenating
+type: encoded_preference
+
+prompt: "I have two docs that cover the same topic — deployment-guide.md and deploy-instructions.md. Tidy them."
+
+expected:
+  must_match:
+    - "(merge|synthesize|consolidat|combin)"
+    - "(rewrite|clean|clarity)"
+  must_not_contain:
+    - "concatenat"
+    - "just append"
+    - "copy and paste"
+
+tags: [merge, quality, core]

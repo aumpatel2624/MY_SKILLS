@@ -8,8 +8,17 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/), and this
 
 ### Added
 
+- **evals framework**: eval runner, benchmark mode, A/B comparator, and model-outgrown detection with shared utilities and YAML-based eval definitions
+- **doctidy** evals: 7 test cases covering trigger recognition, codebase scanning, target structure, safety/archival, merge behavior, report output, and naming conventions
+- **git-workflow** evals: 10 test cases covering trigger recognition, branch naming, conventional commits, imperative mood, changelog updates, copy-paste commands, hotfix detection, three-branch model, summary output, and changelog skip logic
+- **doctidy** skill: added YAML frontmatter with `name` and `description` for reliable trigger matching
 - **git-workflow** skill: added CHANGELOG.md update step to the workflow (Step 4) with commit-type-to-section mapping and skip logic for non-user-facing changes
 - **git-workflow** skill: added `references/changelog-format.md` reference doc with full Keep a Changelog spec, examples, and checklist
+
+### Changed
+
+- Updated README with evals framework documentation, methodology section, and revised skill creation guide
+- Updated CONTRIBUTING guide to require evals for new skills and include frontmatter guidelines
 
 ## [1.0.0] - 2026-03-05
 
