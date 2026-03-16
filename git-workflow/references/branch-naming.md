@@ -12,18 +12,20 @@ Both parts are **required**. Never use a bare branch name like `login-fix` or `n
 
 ## Prefix Reference
 
-| Prefix    | Use for                                                      | Default merge target |
-|-----------|--------------------------------------------------------------|----------------------|
-| `feat/`   | New features, new pages, new API endpoints, new UI           | `development`        |
-| `fix/`    | Bug fixes, broken behavior, incorrect output                 | `development`        |
-| `hotfix/` | Critical bugs in production that can't wait for dev cycle    | `production`         |
-| `chore/`  | Dependency updates, config changes, refactors, cleanup       | `development`        |
-| `docs/`   | README, API docs, inline comments, changelogs                | `development`        |
-| `ci/`     | GitHub Actions, Dockerfile, build scripts, deploy configs    | `development`        |
-| `perf/`   | Performance improvements, query optimization, caching        | `development`        |
-| `test/`   | Adding or fixing tests (no production code changes)          | `development`        |
-| `style/`  | Formatting, linting fixes, whitespace (no logic change)      | `development`        |
-| `revert/` | Reverting a prior commit or set of commits                   | `development`        |
+| Prefix    | Use for                                                      | Merge target |
+|-----------|--------------------------------------------------------------|--------------|
+| `feat/`   | New features, new pages, new API endpoints, new UI           | `development` |
+| `fix/`    | Bug fixes, broken behavior, incorrect output                 | `development` |
+| `hotfix/` | Critical bugs in production that can't wait for dev cycle    | `production` *(backport to `development` immediately)* |
+| `chore/`  | Dependency updates, config changes, refactors, cleanup       | `development` |
+| `docs/`   | README, API docs, inline comments, changelogs                | `development` |
+| `ci/`     | GitHub Actions, Dockerfile, build scripts, deploy configs    | `development` |
+| `perf/`   | Performance improvements, query optimization, caching        | `development` |
+| `test/`   | Adding or fixing tests (no production code changes)          | `development` |
+| `style/`  | Formatting, linting fixes, whitespace (no logic change)      | `development` |
+| `revert/` | Reverting a prior commit or set of commits                   | `development` |
+
+> **Mandatory rule**: Every branch merges into `development`. The only exception is `hotfix/` which targets `production` but **must** be backported to `development` immediately after deploy. Never merge directly into `staging`. If the repo has no `development` branch, ask the user to create one before proceeding.
 
 ---
 
@@ -110,10 +112,17 @@ Always work on a short-lived feature branch and merge via pull request.
 
 ## Deciding the Target Branch
 
-In most cases the target is `development`. Use these exceptions:
+The target is **always `development`**. There is only one exception:
 
-- **`staging`** — fix a bug that only manifests in the staging environment and is not present in dev
-- **`production`** — only via `hotfix/` branches for critical issues; must be backported
+- **`production`** — only via `hotfix/` branches for critical issues that are actively harming users in production. The hotfix **must be backported to `development`** immediately after deploy (see `hotfix-flow.md`).
+
+**Never merge directly into `staging`.** Staging receives code only when `development` is promoted to `staging` as part of the release cycle.
+
+**If the repository does not have a `development` branch**, stop and ask the user to create one:
+```bash
+git checkout -b development
+git push -u origin development
+```
 
 ---
 

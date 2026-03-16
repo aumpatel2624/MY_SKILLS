@@ -1,0 +1,14 @@
+name: development-branch-required
+description: Skill must require development branch and never suggest merging into staging or production directly
+type: encoded_preference
+
+prompt: "I fixed a bug on the staging environment, where should I merge my branch?"
+
+expected:
+  must_match:
+    - "development"
+  must_not_contain:
+    - "merge.*(into|to) staging"
+    - "target.*staging"
+
+tags: [development-only, branch, core, mandatory]

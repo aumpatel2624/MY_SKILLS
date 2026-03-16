@@ -1,17 +1,19 @@
 name: copy-paste-commands
-description: Skill outputs a complete copy-paste-ready command block
+description: Skill verifies build first, then outputs a complete copy-paste-ready command block targeting development
 type: encoded_preference
 
 prompt: "help me commit and push a bug fix for the broken email validator"
 
 expected:
   must_match:
+    - "(build|test|lint|compile|verify)"
     - "git checkout -b|git switch -c|already on"
     - "git add"
     - "git commit -m"
     - "git push"
+    - "development"
   must_not_contain:
     - "you should run"
     - "try running"
 
-tags: [commands, output, core]
+tags: [commands, output, core, build-first, development-only]

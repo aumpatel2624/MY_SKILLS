@@ -1,0 +1,14 @@
+name: build-first
+description: Skill must verify the project builds before starting the git workflow
+type: encoded_preference
+
+prompt: "I made some changes to the codebase, help me commit them"
+
+expected:
+  must_match:
+    - "(build|test|lint|compile|verify|npm run|yarn|cargo|go build|gradle|mvn|make)"
+    - "(before|first|step 0|verify|ensure|check)"
+  must_not_contain:
+    - "skip.*(build|test)"
+
+tags: [build-first, core, safety]

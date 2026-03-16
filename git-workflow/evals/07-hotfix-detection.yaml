@@ -1,5 +1,5 @@
 name: hotfix-detection
-description: Skill uses hotfix/ prefix and targets production for critical fixes
+description: Skill uses hotfix/ prefix, targets production, and mandates backport to development
 type: encoded_preference
 
 prompt: "there's a critical bug in production — users can't log in. Help me commit a fix."
@@ -7,9 +7,9 @@ prompt: "there's a critical bug in production — users can't log in. Help me co
 expected:
   must_match:
     - "hotfix/"
-    - "(production|prod|main)"
+    - "(production|prod)"
+    - "(backport|merge.+development|cherry.pick.+development)"
   must_not_contain:
     - "feat/"
-    - "development"
 
-tags: [hotfix, branch, core]
+tags: [hotfix, branch, core, development-backport]

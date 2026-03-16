@@ -1,5 +1,5 @@
 name: three-branch-model
-description: Skill follows development/staging/production branch hierarchy
+description: Skill enforces development-only merge target for all non-hotfix branches
 type: encoded_preference
 
 prompt: "create a branch for a new feature and tell me where it should merge"
@@ -11,5 +11,6 @@ expected:
   must_not_contain:
     - "merge into main"
     - "merge to master"
+    - "merge.*(staging|production)"
 
-tags: [branch, hierarchy, core]
+tags: [branch, hierarchy, core, development-only]

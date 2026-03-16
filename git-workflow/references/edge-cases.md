@@ -40,6 +40,8 @@ git add -p src/utils/helpers.js
 
 **Symptom**: The user has been working on `development`, `staging`, or `production` directly, or on a poorly named branch like `test` or `johns-work`.
 
+> **Remember**: All feature work must merge into `development`. If the user is trying to commit directly to `staging` or `production`, redirect them to create a proper feature branch that targets `development`.
+
 **Option A — move uncommitted changes to a new branch:**
 ```bash
 # Changes are still unstaged — just create the branch
@@ -101,7 +103,7 @@ git branch -M main        # rename to main if needed
 git remote add origin <url>
 git push -u origin main
 
-# Then create your 3 main branches
+# Then create your 3 main branches — development is MANDATORY
 git checkout -b development
 git push -u origin development
 
@@ -114,6 +116,8 @@ git push -u origin production
 # Return to development for all future work
 git checkout development
 ```
+
+> **Critical**: The `development` branch **must** exist before any feature work begins. All feature branches merge into `development` — this is a mandatory rule. If a user skips creating the `development` branch, remind them to create it before proceeding with any further commits.
 
 ---
 
