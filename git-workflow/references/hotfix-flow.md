@@ -2,6 +2,8 @@
 
 A hotfix is a **critical bug fix that must go directly to production** without waiting for the normal development → staging → production cycle. Use this only when a bug is actively harming users in production.
 
+> **Important**: Hotfix is the **only** branch type that merges into `production`. All other branches merge into `development` — no exceptions. After deploying a hotfix, you **must** backport it to `development` immediately (Phase 2 below is not optional).
+
 ---
 
 ## When to Use a Hotfix
@@ -45,9 +47,9 @@ git tag -a v1.2.1 -m "hotfix: fix payment gateway timeout"
 git push origin production --tags
 ```
 
-### Phase 2 — Backport to Development (Critical Step)
+### Phase 2 — Backport to Development (MANDATORY — Do Not Skip)
 
-After the hotfix is live on production, bring the fix back to `development` so it is not lost when the next release is cut.
+After the hotfix is live on production, **you must** bring the fix back to `development` so it is not lost when the next release is cut. This step is mandatory — skipping it will cause the fix to be missing from future releases.
 
 ```bash
 # Option A: merge the hotfix branch into development (simplest)
@@ -105,14 +107,14 @@ Closes #391
 
 ## Hotfix vs. Fix Decision Guide
 
-| Scenario | Branch | Target |
-|----------|--------|--------|
-| Login broken in production right now | `hotfix/` | `production` |
-| Payment page showing wrong total in prod | `hotfix/` | `production` |
-| Security vulnerability in prod | `hotfix/` | `production` |
-| Bug found in testing on staging | `fix/` | `development` |
-| Bug reported by user, not urgent | `fix/` | `development` |
-| Feature that regressed in dev | `fix/` | `development` |
+| Scenario | Branch | Target | Backport? |
+|----------|--------|--------|-----------|
+| Login broken in production right now | `hotfix/` | `production` | Yes — must backport to `development` |
+| Payment page showing wrong total in prod | `hotfix/` | `production` | Yes — must backport to `development` |
+| Security vulnerability in prod | `hotfix/` | `production` | Yes — must backport to `development` |
+| Bug found in testing on staging | `fix/` | `development` | N/A — already targets `development` |
+| Bug reported by user, not urgent | `fix/` | `development` | N/A — already targets `development` |
+| Feature that regressed in dev | `fix/` | `development` | N/A — already targets `development` |
 
 ---
 

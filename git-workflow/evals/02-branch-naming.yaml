@@ -1,5 +1,5 @@
 name: branch-naming
-description: Skill suggests correct branch names following prefix conventions
+description: Skill suggests correct branch names following prefix conventions, always targets development
 type: encoded_preference
 
 prompt: "I just built a new login page. What should I name my branch?"
@@ -9,9 +9,11 @@ expected:
     - "feat/"
     - "(login|auth)"
     - "(lowercase|hyphen)"
+    - "development"
   must_not_contain:
     - "FEAT/"
     - "feature/"
     - "camelCase"
+    - "merge.*(staging|production|main|master)"
 
-tags: [branch, naming, core]
+tags: [branch, naming, core, development-only]

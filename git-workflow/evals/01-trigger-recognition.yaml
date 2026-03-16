@@ -1,5 +1,5 @@
 name: trigger-recognition
-description: Skill activates on common git-related trigger phrases
+description: Skill activates on common git-related trigger phrases, starts with build verification
 type: encoded_preference
 
 prompt: "commit my changes"
@@ -9,8 +9,9 @@ expected:
     - "(git diff|git status|diff|status)"
     - "(commit message|commit -m)"
     - "(feat|fix|chore|refactor|docs)\\("
+    - "(build|test|lint|compile|verify)"
   must_not_contain:
     - "I don't understand"
     - "I can't help"
 
-tags: [trigger, basic]
+tags: [trigger, basic, build-first]

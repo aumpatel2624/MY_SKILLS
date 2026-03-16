@@ -1,14 +1,16 @@
 name: summary-output
-description: Skill closes with a clear structured summary
+description: Skill closes with a clear structured summary including build status
 type: encoded_preference
 
 prompt: "help me with git — I refactored the database connection pool"
 
 expected:
   must_match:
+    - "(build|test|lint|compile|verify)"
     - "(branch name|Branch)"
     - "(commit message|Commit)"
     - "(CHANGELOG|changelog)"
     - "(command|Command)"
+    - "development"
 
-tags: [summary, output, core]
+tags: [summary, output, core, build-first, development-only]

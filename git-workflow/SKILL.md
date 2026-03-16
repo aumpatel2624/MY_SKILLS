@@ -1,6 +1,6 @@
 ---
 name: git-workflow
-description: "Use this skill whenever the user wants help with git: committing changes, naming branches, writing commit messages, updating the changelog, pushing code, staging files, or preparing a PR. Trigger on phrases like: commit my changes, create a branch, what should I name this branch, help me with git, write a commit message, push my code, review my diff, stage my changes, prepare a pull request, update the changelog, or what branch should I use. This skill runs the complete workflow: inspect the diff, pick the right branch name and target, write a conventional commit message, update CHANGELOG.md, and output copy-paste-ready commands. Built for a 3-branch repo: development, staging, and production."
+description: "Use this skill whenever the user wants help with git: committing changes, naming branches, writing commit messages, updating the changelog, pushing code, staging files, or preparing a PR. Trigger on phrases like: commit my changes, create a branch, what should I name this branch, help me with git, write a commit message, push my code, review my diff, stage my changes, prepare a pull request, update the changelog, or what branch should I use. This skill runs the complete workflow: first verify the project builds error-free, then inspect the diff, pick the right branch name and target, write a conventional commit message, update CHANGELOG.md, and output copy-paste-ready commands. All branches merge into development only (hotfixes target production but must be backported to development). If no development branch exists, ask the user to create one. Built for a 3-branch repo: development, staging, and production."
 ---
 
 # Git Workflow Skill
@@ -11,9 +11,61 @@ Branch hierarchy: `feature branches` → `development` → `staging` → `produc
 
 ---
 
+## Mandatory Rule — Development Branch Only
+
+> **All branches MUST merge into `development`.** This is non-negotiable.
+>
+> - `feat/`, `fix/`, `chore/`, `docs/`, `ci/`, `perf/`, `test/`, `style/`, `revert/` → **always merge into `development`**
+> - `hotfix/` → merges into `production` **but must be immediately backported to `development`** (see `references/hotfix-flow.md`)
+> - **Never merge directly into `staging` or `production`** (except hotfixes to production)
+> - If the repository does not have a `development` branch, **stop and ask the user to create one** before proceeding. Do not continue the workflow without it.
+
+---
+
 ## How to Use This Skill
 
-Work through these six steps in order. Each step tells you when to open a reference file for full detail.
+Work through these seven steps in order. Each step tells you when to open a reference file for full detail.
+
+---
+
+## Step 0 — Verify the Project Builds
+
+**Before touching git at all**, confirm the project is in a working state. Run the project's build/compile/lint commands to ensure there are no errors.
+
+Common build commands (adapt to the project's stack):
+```bash
+# Node.js / JavaScript / TypeScript (Bun preferred)
+bun run build          # or: npm run build, yarn build, pnpm build
+bun run lint           # or: bun eslint .
+bun test               # or: npm test, yarn test
+
+# Python
+python -m py_compile main.py   # syntax check
+pytest                          # run tests if available
+flake8 .                        # lint
+
+# Go
+go build ./...
+go test ./...
+
+# Rust
+cargo build
+cargo test
+
+# Java / Kotlin
+./gradlew build        # or: mvn compile
+./gradlew test         # or: mvn test
+
+# Generic — check for a Makefile, package.json scripts, or CI config
+```
+
+**If the build fails or tests fail:**
+1. **Do not proceed** with branching or committing
+2. Tell the user what failed and help them fix the issues first
+3. Re-run the build to confirm the fix
+4. Only then continue to Step 1
+
+> The goal: never commit broken code. Every commit on `development` should be buildable and pass tests.
 
 ---
 
@@ -64,12 +116,15 @@ Quick decision table:
 |----------------------|---------------|---------------|
 | New feature          | `feat/`       | `development` |
 | Bug fix (non-urgent) | `fix/`        | `development` |
-| Critical prod fix    | `hotfix/`     | `production`  |
+| Critical prod fix    | `hotfix/`     | `production` *(then backport to `development`)* |
 | Refactor / cleanup   | `chore/`      | `development` |
 | Documentation        | `docs/`       | `development` |
 | CI / build / tooling | `ci/`         | `development` |
-| Staging-only fix     | `fix/`        | `staging`     |
 | Performance          | `perf/`       | `development` |
+| Test changes         | `test/`       | `development` |
+
+> **No exceptions**: every branch merges into `development` unless it is a `hotfix/` (which targets `production` but must be backported to `development` immediately).
+> If there is no `development` branch in the repo, **ask the user to create one first**.
 
 Branch name format: `<prefix>/<short-descriptive-slug>`
 Rules: lowercase · hyphens only · max 40 chars · no ticket numbers unless requested
@@ -169,11 +224,12 @@ git push -u origin feat/your-branch-name
 
 Always close your response with:
 
-1. **Branch name** — state it clearly, with a one-sentence reason for the choice
-2. **Full commit message** — verbatim, formatted, ready to copy
-3. **CHANGELOG entry** — the exact line(s) to add, and under which section
-4. **Commands block** — the complete sequence filled in with real values
-5. **Next step** — e.g. "Open a PR: `feat/login` → `development`"
+1. **Build status** — confirm the project builds and tests pass (from Step 0)
+2. **Branch name** — state it clearly, with a one-sentence reason for the choice
+3. **Full commit message** — verbatim, formatted, ready to copy
+4. **CHANGELOG entry** — the exact line(s) to add, and under which section
+5. **Commands block** — the complete sequence filled in with real values
+6. **Next step** — e.g. "Open a PR: `feat/login` → `development`" (always target `development`)
 
 ---
 
