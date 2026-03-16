@@ -34,10 +34,10 @@ Work through these seven steps in order. Each step tells you when to open a refe
 
 Common build commands (adapt to the project's stack):
 ```bash
-# Node.js / JavaScript / TypeScript
-npm run build          # or: yarn build, pnpm build
-npm run lint           # or: npx eslint .
-npm test               # run tests if available
+# Node.js / JavaScript / TypeScript (Bun preferred)
+bun run build          # or: npm run build, yarn build, pnpm build
+bun run lint           # or: bun eslint .
+bun test               # or: npm test, yarn test
 
 # Python
 python -m py_compile main.py   # syntax check
